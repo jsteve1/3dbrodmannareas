@@ -15,43 +15,35 @@ export default function BrainViewer({ onBrainClick, selectedBA, brainMeshes, dar
   const selectedBARef = useRef(selectedBA); // Store selectedBA in a ref
   const sectionColorsEnabledRef = useRef(sectionColorsEnabled);
 
-  console.log('BrainViewer render - darkMode:', darkMode);
 
   // Update refs whenever they change
   useEffect(() => {
     darkModeRef.current = darkMode;
-    console.log('darkModeRef updated to:', darkMode);
   }, [darkMode]);
 
   useEffect(() => {
     selectedBARef.current = selectedBA;
-    console.log('selectedBARef updated to:', selectedBA);
   }, [selectedBA]);
 
   useEffect(() => {
     sectionColorsEnabledRef.current = sectionColorsEnabled;
-    console.log('sectionColorsEnabledRef updated to:', sectionColorsEnabled);
   }, [sectionColorsEnabled]);
 
   useEffect(() => {
     // Prevent setup if mount point already has children (from previous mount)
     if (mountRef.current && mountRef.current.children.length > 0) {
-      console.log('Mount point not empty, clearing...');
       while (mountRef.current.firstChild) {
         mountRef.current.removeChild(mountRef.current.firstChild);
       }
     }
     
-    // Track if component is mounted to prevent double-loading  
+    // Track if component is mounted to prevent double-loading
     let isMounted = true;
-    
-    console.log('Setting up scene...');
-    
+
     // Scene setup
     const scene = new THREE.Scene();
     scene.background = new THREE.Color(0x101010); // Match new dark mode background
     sceneRef.current = scene;
-    console.log('Scene created with initial background');
 
     const camera = new THREE.PerspectiveCamera(
       60,
@@ -77,8 +69,6 @@ export default function BrainViewer({ onBrainClick, selectedBA, brainMeshes, dar
     
     mountRef.current.appendChild(renderer.domElement);
     rendererRef.current = renderer;
-    
-    console.log('Canvas created and added to DOM');
 
     const controls = new OrbitControls(camera, renderer.domElement);
     controls.enableDamping = true;
@@ -90,13 +80,7 @@ export default function BrainViewer({ onBrainClick, selectedBA, brainMeshes, dar
     
     // Test that controls are working
     controls.addEventListener('change', () => {
-      console.log('OrbitControls changed!');
-    });
-    
-    console.log('OrbitControls initialized:', {
-      enabled: controls.enabled,
-      domElement: controls.domElement,
-      canvas: renderer.domElement
+      // OrbitControls changed
     });
     
     controlsRef.current = controls;
@@ -114,11 +98,9 @@ export default function BrainViewer({ onBrainClick, selectedBA, brainMeshes, dar
     loader.load('brain_segmented2.glb', (gltf) => {
       // Only proceed if component is still mounted
       if (!isMounted) {
-        console.log('Component unmounted, skipping brain load');
         return;
       }
       
-      console.log('Brain model loaded');
       const brain = gltf.scene;
       brain.scale.setScalar(0.7); // Zoom in more
       brainRef.current = brain;
@@ -266,7 +248,6 @@ export default function BrainViewer({ onBrainClick, selectedBA, brainMeshes, dar
         const specialColor = getSpecialColor(mesh.name);
         if (specialColor !== null) {
           colorHex = specialColor;
-          console.log(`Special color assigned to ${mesh.name}: ${colorHex.toString(16)}`);
         } else {
           // Use graph coloring for all other areas
           const colorIndex = colorMap.get(mesh.name) || 0;
@@ -297,8 +278,6 @@ export default function BrainViewer({ onBrainClick, selectedBA, brainMeshes, dar
         line.name = 'edgeLine'; // Tag for later removal/toggle
         mesh.add(line);
       });
-      
-      console.log('Color assignment complete. Used', usedColors.size, 'distinct colors for', meshObjects.length, 'regions');
 
       if (brainMeshes) {
         brainMeshes.current = meshes;
@@ -330,7 +309,6 @@ export default function BrainViewer({ onBrainClick, selectedBA, brainMeshes, dar
       // Debounce: prevent rapid-fire selections
       const now = Date.now();
       if (now - lastInteractionTime < DEBOUNCE_DELAY) {
-        console.log('Interaction debounced');
         return;
       }
       lastInteractionTime = now;
@@ -359,9 +337,6 @@ export default function BrainViewer({ onBrainClick, selectedBA, brainMeshes, dar
         
         // Only proceed if it's a valid Brodmann area (not BRAIN)
         if (clicked.name && clicked.name !== 'BRAIN') {
-          console.log('Mesh clicked:', clicked.name, 'distance:', intersects[0].distance);
-          console.log('Current selectedBA:', selectedBARef.current);
-          
           if (onBrainClick) {
             onBrainClick(clicked.name);
             console.log('onBrainClick called with:', clicked.name);
@@ -369,23 +344,17 @@ export default function BrainViewer({ onBrainClick, selectedBA, brainMeshes, dar
         } else {
           // Clicked on BRAIN mesh - ignore if area is selected
           if (!selectedBARef.current) {
-            console.log('Clicked BRAIN mesh and nothing selected - deselecting');
             if (onBrainClick) {
               onBrainClick(null);
             }
-          } else {
-            console.log('Clicked BRAIN mesh but area is selected - ignoring click');
           }
         }
       } else {
         // Clicked outside the brain - ignore if area is selected
         if (!selectedBARef.current) {
-          console.log('No intersection detected and nothing selected - deselecting');
           if (onBrainClick) {
             onBrainClick(null);
           }
-        } else {
-          console.log('Clicked outside but area is selected - ignoring click');
         }
       }
     };
@@ -411,10 +380,7 @@ export default function BrainViewer({ onBrainClick, selectedBA, brainMeshes, dar
     const handleClick = (event) => {
       // Only register as a click if mouse didn't move (wasn't a drag)
       if (!mouseMoved) {
-        console.log('Click detected (not a drag)');
         handleInteraction(event.clientX, event.clientY);
-      } else {
-        console.log('Mouse drag detected, ignoring selection');
       }
     };
 
@@ -444,10 +410,7 @@ export default function BrainViewer({ onBrainClick, selectedBA, brainMeshes, dar
       if (event.changedTouches.length === 1 && !touchMoved) {
         // Only register as a tap if the touch didn't move (wasn't a drag/rotate)
         const touch = event.changedTouches[0];
-        console.log('Touch tap detected (not a drag)');
         handleInteraction(touch.clientX, touch.clientY);
-      } else if (touchMoved) {
-        console.log('Touch drag detected, ignoring selection');
       }
     };
 
@@ -483,8 +446,6 @@ export default function BrainViewer({ onBrainClick, selectedBA, brainMeshes, dar
       // Update renderer size - this sets the actual canvas resolution
       renderer.setSize(width, height);
       renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-      
-      console.log('Resized to:', width, 'x', height, 'aspect:', camera.aspect, 'target:', controls.target);
     };
     
     // Handle window resize
@@ -507,7 +468,6 @@ export default function BrainViewer({ onBrainClick, selectedBA, brainMeshes, dar
       const targetColor = darkModeRef.current ? 0x101010 : 0xffffff;
       if (scene.background.getHex() !== targetColor) {
         scene.background.setHex(targetColor);
-        console.log('Background updated in animation loop to:', targetColor);
       }
       
       // Update mesh colors based on selection and sectionColorsEnabled
@@ -563,7 +523,6 @@ export default function BrainViewer({ onBrainClick, selectedBA, brainMeshes, dar
 
     // Cleanup
     return () => {
-      console.log('Cleaning up BrainViewer...');
       isMounted = false; // Prevent async brain load from completing
       
       resizeObserver.disconnect();
@@ -605,8 +564,6 @@ export default function BrainViewer({ onBrainClick, selectedBA, brainMeshes, dar
       controlsRef.current = null;
       brainRef.current = null;
       meshMapRef.current.clear();
-      
-      console.log('Cleanup complete - all canvases removed');
     };
   }, [onBrainClick, brainMeshes]);
 
