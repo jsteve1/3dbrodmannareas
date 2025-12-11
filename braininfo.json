@@ -1,0 +1,616 @@
+{
+    "metadata": {
+      "title": "Evidence-Based Brodmann Areas Cytoarchitecture Reference",
+      "version": "2.0",
+      "note": "This reference is based on current neuroscientific literature and avoids speculative psychological interpretations at the layer level. Brodmann's original parcellation shows significant interindividual variability, and modern cytoarchitectonic mapping continues to refine these areas."
+    },
+    "brodmann_areas": [
+      {
+        "id": "1-3",
+        "name": "Primary Somatosensory Cortex (BA 1, 2, 3)",
+        "location": "Postcentral gyrus and posterior paracentral lobule",
+        "subareas": {
+          "3a": {
+            "description": "Located in fundus of central sulcus; predominantly processes proprioceptive input from muscle spindles and joint receptors"
+          },
+          "3b": {
+            "description": "Main recipient of thalamocortical projections from VPL/VPM; processes cutaneous tactile input with small, precise receptive fields"
+          },
+          "1": {
+            "description": "Processes texture and motion; receives input from area 3b; neurons have larger receptive fields often spanning multiple digits"
+          },
+          "2": {
+            "description": "Integrates cutaneous and proprioceptive information for size and shape discrimination; largest receptive fields in primary somatosensory cortex"
+          }
+        },
+        "cytoarchitecture": {
+          "general": "Six-layered granular cortex with well-developed layer IV",
+          "layer_I": "Molecular layer; sparse neurons; horizontal fibers",
+          "layer_II": "External granular layer; small stellate cells",
+          "layer_III": "External pyramidal layer; medium pyramidal neurons projecting to other cortical areas",
+          "layer_IV": "Internal granular layer; exceptionally thick in area 3b; primary recipient of thalamic input (VPL for body, VPM for face)",
+          "layer_V": "Internal pyramidal layer; medium-sized pyramidal neurons with subcortical projections",
+          "layer_VI": "Multiform layer; fusiform neurons providing feedback to thalamus"
+        },
+        "connectivity": {
+          "inputs": "VPL thalamus (body), VPM thalamus (face) project primarily to area 3b and layer IV; areas process serially (3b→1→2) and in parallel",
+          "outputs": "Projects to secondary somatosensory cortex (S2), posterior parietal cortex (areas 5, 7), and motor cortex"
+        },
+        "functions": [
+          "Tactile discrimination and localization",
+          "Proprioception and body position sense",
+          "Vibration and pressure detection",
+          "Somatotopic body representation (sensory homunculus)"
+        ],
+        "clinical_relevance": [
+          "Lesions cause contralateral numbness, impaired tactile discrimination, astereognosis (inability to recognize objects by touch)",
+          "Cortical representation proportional to innervation density (enlarged hand and face areas)"
+        ],
+        "evidence_base": "Based on cytoarchitectonic studies (Brodmann 1909; Amunts et al. 1999-2024), electrophysiological recordings, and modern neuroimaging"
+      },
+      {
+        "id": "4",
+        "name": "Primary Motor Cortex (BA 4)",
+        "location": "Precentral gyrus and anterior paracentral lobule",
+        "cytoarchitecture": {
+          "general": "Agranular cortex; layer IV extremely thin or absent; thickest cortical region (3.0-4.5mm)",
+          "layer_I": "Thin molecular layer (0.35mm)",
+          "layer_II": "Thin layer of small pyramidal neurons",
+          "layer_III": "Prominent pyramidal neurons; projects to premotor and somatosensory cortex",
+          "layer_IV": "Nearly absent or extremely thin—defining feature distinguishing from area 6",
+          "layer_V": "Exceptionally thick; contains giant pyramidal Betz cells (found only in area 4); provides major corticospinal output",
+          "layer_VI": "Fusiform neurons; corticothalamic projections"
+        },
+        "connectivity": {
+          "inputs": "Premotor cortex (area 6), supplementary motor area, somatosensory cortex (areas 1, 2, 3a), posterior parietal cortex, cerebellum via thalamus",
+          "outputs": "Corticospinal tract to spinal cord (via Betz cells), corticobulbar tract to brainstem motor nuclei"
+        },
+        "functions": [
+          "Initiation and execution of voluntary movements",
+          "Fine motor control",
+          "Motor homunculus (somatotopic organization of body movements)"
+        ],
+        "clinical_relevance": [
+          "Lesions cause contralateral weakness or paralysis (hemiparesis/hemiplegia)",
+          "Damage to hand area causes apraxia of fine movements"
+        ],
+        "evidence_base": "Brodmann 1909; modern thickness measurements; Betz cell distribution studies; tract tracing"
+      },
+      {
+        "id": "5",
+        "name": "Somatosensory Association Cortex (BA 5)",
+        "location": "Superior parietal lobule, posterior to areas 1 and 2",
+        "cytoarchitecture": {
+          "general": "Six-layered cortex with moderate layer IV development",
+          "distinctive_features": "Integration of somatosensory information from multiple body regions; larger receptive fields than primary somatosensory cortex"
+        },
+        "connectivity": {
+          "inputs": "Areas 1, 2, 3a; posterior parietal areas; thalamus (VPS nucleus)",
+          "outputs": "Premotor cortex, posterior parietal area 7, motor cortex"
+        },
+        "functions": [
+          "Body schema construction",
+          "Spatial representation of body position",
+          "Integration of tactile and proprioceptive information",
+          "Sensorimotor transformations for reaching and grasping"
+        ],
+        "clinical_relevance": [
+          "Lesions can impair reaching to visual targets",
+          "Contributes to spatial neglect when damaged (especially right hemisphere)"
+        ],
+        "evidence_base": "Lesion studies; neuroimaging; cytoarchitectonic mapping"
+      },
+      {
+        "id": "6",
+        "name": "Premotor and Supplementary Motor Cortex (BA 6)",
+        "location": "Anterior to primary motor cortex; includes medial surface (supplementary motor area)",
+        "cytoarchitecture": {
+          "general": "Agranular/dysgranular cortex with very thin layer IV; thickness 2.8-3.8mm (thinner than BA 4)",
+          "distinctive_features": "Less prominent layer V than area 4; no Betz cells"
+        },
+        "connectivity": {
+          "inputs": "Prefrontal cortex, parietal cortex, basal ganglia via thalamus, cerebellum via thalamus",
+          "outputs": "Primary motor cortex (BA 4), spinal cord, brainstem"
+        },
+        "functions": [
+          "Motor planning and sequencing",
+          "Preparation for movement execution",
+          "Bimanual coordination (supplementary motor area)",
+          "Internally generated vs externally cued movements"
+        ],
+        "clinical_relevance": [
+          "Lesions impair motor sequencing and planning",
+          "Supplementary motor area damage can cause akinetic mutism or alien hand syndrome"
+        ],
+        "evidence_base": "Cytoarchitectonic studies; functional imaging during motor preparation tasks"
+      },
+      {
+        "id": "7",
+        "name": "Superior Parietal Lobule / Visuospatial Association Cortex (BA 7)",
+        "location": "Superior parietal lobule, posterior to area 5",
+        "cytoarchitecture": {
+          "general": "Six-layered cortex with well-developed layer IV for visual input integration"
+        },
+        "functions": [
+          "Visuomotor integration for reaching and grasping",
+          "Spatial attention and eye-hand coordination",
+          "Visual guidance of movement",
+          "Mental rotation and spatial reasoning"
+        ],
+        "clinical_relevance": [
+          "Lesions cause optic ataxia (misreaching under visual guidance)",
+          "Right hemisphere damage associated with spatial neglect",
+          "Balint's syndrome when bilateral damage occurs"
+        ],
+        "evidence_base": "Lesion-deficit correlation studies; functional neuroimaging"
+      },
+      {
+        "id": "8",
+        "name": "Frontal Eye Fields (BA 8)",
+        "location": "Posterior part of middle frontal gyrus",
+        "functions": [
+          "Voluntary control of saccadic eye movements",
+          "Smooth pursuit eye movements",
+          "Shifting visual attention",
+          "Eye movement planning"
+        ],
+        "clinical_relevance": [
+          "Lesions cause temporary deviation of eyes away from lesion side",
+          "Difficulty with voluntary saccades",
+          "Impaired visual search"
+        ],
+        "evidence_base": "Electrophysiological studies; stimulation studies; lesion analyses"
+      },
+      {
+        "id": "9",
+        "name": "Dorsolateral Prefrontal Cortex (BA 9)",
+        "location": "Superior frontal gyrus, dorsorostral part of DLPFC",
+        "cytoarchitecture": {
+          "general": "Granular cortex with well-developed layer IV; characteristic of prefrontal regions"
+        },
+        "functions": [
+          "Working memory maintenance and manipulation",
+          "Cognitive control and attentional regulation",
+          "Planning and organization",
+          "Abstract reasoning"
+        ],
+        "clinical_relevance": [
+          "Dysfunction associated with executive function deficits",
+          "Implicated in depression, schizophrenia, ADHD",
+          "Lesions impair working memory and planning"
+        ],
+        "evidence_base": "Modern cytoarchitectonic parcellation (Amunts et al. 2020); functional neuroimaging; clinical neuropsychology"
+      },
+      {
+        "id": "10",
+        "name": "Frontopolar Cortex (BA 10)",
+        "location": "Most anterior part of frontal lobe; frontal pole",
+        "cytoarchitecture": {
+          "general": "Granular cortex with prominent layer III; one of most evolved human brain regions",
+          "note": "Modern parcellation identifies multiple subregions within BA 10 (Bludau et al. 2014), though traditional Brodmann subdivision labels vary across studies"
+        },
+        "functions": [
+          "Multitasking and task switching",
+          "Prospective memory (remembering to perform future actions)",
+          "Abstract goal processing",
+          "Metacognition and self-referential thought",
+          "Integration of internal and external information"
+        ],
+        "clinical_relevance": [
+          "Lesions impair multitasking and prospective memory",
+          "Dysfunction in various psychiatric conditions",
+          "One of latest-maturing brain regions in development"
+        ],
+        "evidence_base": "Bludau et al. 2014 (Julich-Brain); functional neuroimaging meta-analyses"
+      },
+      {
+        "id": "11",
+        "name": "Orbitofrontal Cortex (BA 11)",
+        "location": "Orbital surface of frontal lobe",
+        "cytoarchitecture": {
+          "general": "Granular cortex; receives multimodal sensory convergence"
+        },
+        "functions": [
+          "Reward and punishment evaluation",
+          "Decision-making involving risk and uncertainty",
+          "Social and emotional information processing",
+          "Olfactory and gustatory integration",
+          "Behavioral inhibition and impulse control"
+        ],
+        "clinical_relevance": [
+          "Lesions cause impulsive behavior, poor decision-making, personality changes",
+          "Famous case of Phineas Gage",
+          "Dysfunction in obsessive-compulsive disorder, addiction"
+        ],
+        "evidence_base": "Lesion studies; functional neuroimaging; animal models"
+      },
+      {
+        "id": "17",
+        "name": "Primary Visual Cortex (V1 / Striate Cortex)",
+        "location": "Banks of calcarine sulcus in occipital lobe",
+        "cytoarchitecture": {
+          "general": "Granular cortex with exceptionally prominent layer IV (subdivided into IVa, IVb, IVc); characterized by Stria of Gennari (visible myelinated band in layer IVb)",
+          "layer_IV": "Highly developed and subdivided; layer IVc has highest cell density and is main input layer from lateral geniculate nucleus (LGN) of thalamus",
+          "distinctive_feature": "Stria of Gennari visible to naked eye in fresh tissue and detectable on high-resolution MRI"
+        },
+        "connectivity": {
+          "inputs": "LGN thalamus (magnocellular and parvocellular pathways)",
+          "outputs": "Secondary visual cortex (V2, BA 18), extrastriate visual areas"
+        },
+        "functions": [
+          "Initial cortical processing of visual information",
+          "Orientation and edge detection",
+          "Spatial frequency analysis",
+          "Binocular disparity processing (depth perception)",
+          "Retinotopic mapping with foveal over-representation"
+        ],
+        "clinical_relevance": [
+          "Lesions cause contralateral homonymous visual field defects",
+          "Complete bilateral damage causes cortical blindness",
+          "Damage to lower calcarine (upper visual field) more common in stroke"
+        ],
+        "evidence_base": "Brodmann 1909; Hubel & Wiesel Nobel Prize work; modern retinotopic mapping"
+      },
+      {
+        "id": "18",
+        "name": "Secondary Visual Cortex (V2)",
+        "location": "Surrounding area 17; extends onto lateral occipital surface",
+        "cytoarchitecture": {
+          "general": "Six-layered cortex; layer IV thinner than in V1 but still prominent"
+        },
+        "functions": [
+          "Processing of form, color, and motion",
+          "Figure-ground segregation",
+          "Illusory contour detection",
+          "Integration of local visual features into global patterns"
+        ],
+        "clinical_relevance": [
+          "Damage contributes to visual agnosia",
+          "Part of ventral 'what' and dorsal 'where' visual streams"
+        ],
+        "evidence_base": "Cytoarchitectonic studies; functional specialization studies; visual hierarchy research"
+      },
+      {
+        "id": "19",
+        "name": "Associative Visual Cortex (V3-V5 regions)",
+        "location": "Lateral occipital cortex",
+        "functions": [
+          "Higher-order visual processing",
+          "Motion perception (V5/MT region)",
+          "Object recognition (ventral stream)",
+          "Spatial vision (dorsal stream)"
+        ],
+        "clinical_relevance": [
+          "Damage can cause specific visual deficits (e.g., akinetopsia with V5 damage)",
+          "Contributes to visual agnosias"
+        ],
+        "evidence_base": "Functional neuroimaging; lesion studies; retinotopic mapping"
+      },
+      {
+        "id": "20",
+        "name": "Inferior Temporal Cortex (BA 20)",
+        "location": "Inferior temporal gyrus",
+        "functions": [
+          "High-level object recognition",
+          "Visual semantic memory",
+          "Integration of object features",
+          "Part of ventral visual 'what' pathway"
+        ],
+        "clinical_relevance": [
+          "Lesions contribute to visual object agnosia",
+          "Involved in semantic dementia when anterior temporal regions affected"
+        ],
+        "evidence_base": "Lesion-deficit studies; functional neuroimaging; single-cell recordings in primates"
+      },
+      {
+        "id": "21",
+        "name": "Middle Temporal Gyrus (BA 21)",
+        "location": "Middle temporal gyrus",
+        "functions": [
+          "Semantic processing and conceptual knowledge",
+          "Word comprehension",
+          "Social cognition and theory of mind",
+          "Distance estimation and spatial processing"
+        ],
+        "clinical_relevance": [
+          "Damage impairs semantic memory",
+          "Involved in semantic variant primary progressive aphasia"
+        ],
+        "evidence_base": "Functional neuroimaging; semantic dementia studies; meta-analyses"
+      },
+      {
+        "id": "22",
+        "name": "Superior Temporal Gyrus (includes Wernicke's area posteriorly)",
+        "location": "Superior temporal gyrus; posterior portion is Wernicke's area",
+        "cytoarchitecture": {
+          "general": "Six-layered cortex; includes primary auditory cortex (BA 41, 42) in transverse temporal gyri (Heschl's gyri)"
+        },
+        "functions": [
+          "Auditory processing and language comprehension (posterior portion)",
+          "Phonological processing",
+          "Prosody perception",
+          "Auditory-verbal short-term memory"
+        ],
+        "clinical_relevance": [
+          "Wernicke's aphasia: fluent speech with impaired comprehension; damage to posterior superior temporal gyrus (dominant hemisphere)",
+          "Right hemisphere damage can impair prosody perception",
+          "Pure word deafness with bilateral damage to primary auditory regions"
+        ],
+        "evidence_base": "Classic Wernicke 1874; modern lesion-symptom mapping; Amunts et al. cytoarchitectonic studies"
+      },
+      {
+        "id": "37",
+        "name": "Fusiform Gyrus (BA 37)",
+        "location": "Inferior surface of temporal lobe (fusiform/occipitotemporal gyrus)",
+        "functions": [
+          "Face recognition (fusiform face area)",
+          "Visual word form recognition (visual word form area)",
+          "Object recognition",
+          "Color processing"
+        ],
+        "clinical_relevance": [
+          "Prosopagnosia (face blindness) with bilateral damage",
+          "Pure alexia (inability to read) with left fusiform damage",
+          "Part of ventral visual stream"
+        ],
+        "evidence_base": "Functional neuroimaging (fusiform face area discovery by Kanwisher); lesion studies; single-unit recordings"
+      },
+      {
+        "id": "38",
+        "name": "Temporal Pole (BA 38)",
+        "location": "Anterior tip of temporal lobe",
+        "functions": [
+          "Semantic memory (especially for unique entities and proper names)",
+          "Social and emotional processing",
+          "Autobiographical memory",
+          "Integration of sensory and emotional information"
+        ],
+        "clinical_relevance": [
+          "Atrophy in semantic variant primary progressive aphasia",
+          "Damage impairs person-specific knowledge",
+          "Involved in temporal lobe epilepsy"
+        ],
+        "evidence_base": "Semantic dementia research; functional neuroimaging; connectivity studies"
+      },
+      {
+        "id": "39",
+        "name": "Angular Gyrus (BA 39)",
+        "location": "Inferior parietal lobule, posterior to supramarginal gyrus",
+        "functions": [
+          "Multimodal integration (visual-auditory-somatosensory)",
+          "Reading and mathematical processing",
+          "Semantic processing",
+          "Default mode network hub",
+          "Spatial cognition and mental imagery"
+        ],
+        "clinical_relevance": [
+          "Gerstmann syndrome with left angular gyrus lesions: agraphia, acalculia, finger agnosia, left-right disorientation",
+          "Alexia and anomia with dominant hemisphere damage",
+          "Contributes to spatial neglect with right hemisphere damage"
+        ],
+        "evidence_base": "Classic Gerstmann 1940; modern neuroimaging; multimodal integration studies"
+      },
+      {
+        "id": "40",
+        "name": "Supramarginal Gyrus (BA 40)",
+        "location": "Inferior parietal lobule, surrounding end of lateral sulcus",
+        "functions": [
+          "Phonological processing and working memory",
+          "Articulatory rehearsal",
+          "Sensorimotor integration",
+          "Empathy and social cognition (right hemisphere)",
+          "Part of mirror neuron system"
+        ],
+        "clinical_relevance": [
+          "Conduction aphasia with left hemisphere damage: intact comprehension and fluent speech, but impaired repetition",
+          "Apraxia with left hemisphere lesions",
+          "Impaired empathy with right hemisphere damage"
+        ],
+        "evidence_base": "Classic aphasia studies; modern neuroimaging; mirror neuron research"
+      },
+      {
+        "id": "43",
+        "name": "Primary Gustatory Cortex (BA 43)",
+        "location": "Posterior insula and frontal operculum",
+        "functions": [
+          "Taste perception",
+          "Oral somatosensation",
+          "Integration of taste and texture"
+        ],
+        "clinical_relevance": [
+          "Lesions can cause ageusia (loss of taste)",
+          "Rarely occurs in isolation"
+        ],
+        "evidence_base": "Functional neuroimaging with taste stimuli; electrical stimulation studies"
+      },
+      {
+        "id": "44",
+        "name": "Pars Opercularis (BA 44, posterior part of Broca's area)",
+        "location": "Posterior inferior frontal gyrus, adjacent to motor cortex",
+        "cytoarchitecture": {
+          "general": "Dysgranular cortex with thin layer IV; substantial interindividual variability (Amunts et al. 1999)"
+        },
+        "functions": [
+          "Phonological processing and articulation planning",
+          "Speech motor programming",
+          "Verbal working memory",
+          "Action understanding (mirror neuron system)",
+          "Music processing"
+        ],
+        "clinical_relevance": [
+          "Broca's aphasia (with BA 45 and adjacent regions): non-fluent speech with relatively preserved comprehension",
+          "Apraxia of speech",
+          "Left hemisphere dominant for language in ~95% of right-handers"
+        ],
+        "evidence_base": "Broca 1861; Amunts cytoarchitectonic studies showing high variability; functional neuroimaging"
+      },
+      {
+        "id": "45",
+        "name": "Pars Triangularis (BA 45, anterior part of Broca's area)",
+        "location": "Anterior inferior frontal gyrus",
+        "cytoarchitecture": {
+          "general": "Granular cortex; more associative than BA 44"
+        },
+        "functions": [
+          "Semantic processing and selection",
+          "Controlled retrieval of semantic information",
+          "Sentence comprehension (syntactic processing)",
+          "Verbal fluency",
+          "Response inhibition"
+        ],
+        "clinical_relevance": [
+          "Part of Broca's area complex",
+          "Lesions contribute to agrammatism and word-finding difficulties",
+          "Dysfunction in depression and other psychiatric disorders"
+        ],
+        "evidence_base": "Modern lesion-symptom mapping; functional neuroimaging; cytoarchitectonic studies"
+      },
+      {
+        "id": "46",
+        "name": "Dorsolateral Prefrontal Cortex (BA 46)",
+        "location": "Middle frontal gyrus",
+        "cytoarchitecture": {
+          "general": "Granular cortex; modern studies identify multiple subregions within traditional BA 46 (MFG1-5, SFG2-4)"
+        },
+        "functions": [
+          "Working memory (especially spatial working memory)",
+          "Executive function and cognitive control",
+          "Attention regulation and task-switching",
+          "Planning and reasoning",
+          "Manipulation of information in working memory"
+        ],
+        "clinical_relevance": [
+          "Executive dysfunction with lesions",
+          "Hypometabolism in depression",
+          "Altered activity in schizophrenia and ADHD",
+          "Age-related decline affects this region prominently"
+        ],
+        "evidence_base": "Goldman-Rakic working memory research; modern cytoarchitectonic mapping (Bruno et al. 2022); neuropsychological assessment"
+      },
+      {
+        "id": "47",
+        "name": "Inferior Frontal Gyrus, Pars Orbitalis (BA 47)",
+        "location": "Inferior frontal gyrus, orbital part",
+        "functions": [
+          "Semantic processing",
+          "Emotion-language integration",
+          "Response inhibition and impulse control",
+          "Reward processing",
+          "Olfactory and gustatory associations"
+        ],
+        "clinical_relevance": [
+          "Lesions impair inhibitory control",
+          "Dysfunction in obsessive-compulsive disorder",
+          "Part of ventrolateral prefrontal cortex involved in various executive functions"
+        ],
+        "evidence_base": "Functional neuroimaging; lesion studies; connectivity analyses"
+      }
+    ],
+    "subcortical_structures": [
+      {
+        "id": "cerebellum",
+        "name": "Cerebellum",
+        "layers": [
+          {
+            "name": "Molecular Layer",
+            "description": "Outer layer containing parallel fibers, Purkinje cell dendrites, stellate and basket cell bodies"
+          },
+          {
+            "name": "Purkinje Cell Layer",
+            "description": "Single layer of large Purkinje neurons; sole output neurons of cerebellar cortex"
+          },
+          {
+            "name": "Granule Cell Layer",
+            "description": "Densest neuronal layer in CNS; receives mossy fiber input"
+          }
+        ],
+        "functions": [
+          "Motor coordination and learning",
+          "Balance and posture",
+          "Timing and temporal processing",
+          "Cognitive functions (prefrontal-cerebellar loops)",
+          "Error-based learning and prediction"
+        ],
+        "clinical_relevance": [
+          "Ataxia (impaired coordination) with damage",
+          "Dysmetria, dysdiadochokinesia, intention tremor",
+          "Cognitive affective syndrome with posterior lobe damage",
+          "Involvement in autism, schizophrenia, attention disorders"
+        ],
+        "evidence_base": "Century of lesion studies; functional neuroimaging; tract tracing"
+      },
+      {
+        "id": "brainstem",
+        "name": "Brainstem",
+        "subdivisions": [
+          {
+            "name": "Midbrain (Mesencephalon)",
+            "structures": "Tectum (superior and inferior colliculi), tegmentum (red nucleus, substantia nigra, ventral tegmental area, periaqueductal gray)"
+          },
+          {
+            "name": "Pons",
+            "structures": "Relay nuclei connecting cortex and cerebellum; pontine nuclei; locus coeruleus; cranial nerve nuclei (V, VI, VII, VIII)"
+          },
+          {
+            "name": "Medulla Oblongata",
+            "structures": "Autonomic centers (cardiovascular, respiratory); dorsal column nuclei; inferior olivary nucleus; cranial nerve nuclei (IX, X, XI, XII)"
+          }
+        ],
+        "functions": [
+          "Vital autonomic functions (breathing, heart rate, blood pressure)",
+          "Arousal and consciousness (reticular activating system)",
+          "Cranial nerve functions",
+          "Relay of sensory and motor information",
+          "Neuromodulator systems (dopamine, norepinephrine, serotonin)"
+        ],
+        "clinical_relevance": [
+          "Damage often life-threatening due to vital functions",
+          "Locked-in syndrome with ventral pontine lesions",
+          "Parkinson's disease involves substantia nigra degeneration",
+          "Consciousness requires intact brainstem"
+        ],
+        "evidence_base": "Classical neuroanatomy; clinical neurology; tract tracing studies"
+      }
+    ],
+    "clinical_assessment_domains": {
+      "dsm5_neurocognitive_domains": [
+        {
+          "domain": "Complex Attention",
+          "description": "Sustained attention, divided attention, selective attention, processing speed",
+          "brain_regions": "Dorsolateral prefrontal cortex (BA 9, 46), anterior cingulate, parietal cortex, thalamus"
+        },
+        {
+          "domain": "Executive Function",
+          "description": "Planning, decision-making, working memory, feedback utilization, inhibition, cognitive flexibility",
+          "brain_regions": "Dorsolateral and ventrolateral prefrontal cortex (BA 9, 10, 46, 47), anterior cingulate, basal ganglia"
+        },
+        {
+          "domain": "Learning and Memory",
+          "description": "Immediate memory, recent memory, recognition memory, free recall, implicit learning",
+          "brain_regions": "Hippocampus, medial temporal lobe, BA 38, fornix, mammillary bodies, thalamus, BA 39"
+        },
+        {
+          "domain": "Language",
+          "description": "Expressive language, receptive language, grammar, word finding, object naming",
+          "brain_regions": "Broca's area (BA 44, 45), Wernicke's area (BA 22), arcuate fasciculus, BA 39, 40"
+        },
+        {
+          "domain": "Perceptual-Motor",
+          "description": "Visual perception, visuoconstructional abilities, perceptual-motor coordination, praxis",
+          "brain_regions": "Primary visual cortex (BA 17), parietal cortex (BA 7, 39, 40), occipitotemporal regions"
+        },
+        {
+          "domain": "Social Cognition",
+          "description": "Recognition of emotions, theory of mind, behavioral regulation, insight",
+          "brain_regions": "Orbitofrontal cortex (BA 11), medial prefrontal cortex, amygdala, temporal poles (BA 38), BA 39, 40"
+        }
+      ],
+      "note": "DSM-5 defines Neurocognitive Disorders as requiring impairment in one or more cognitive domains documented by clinical assessment and standardized neuropsychological testing. Major NCD requires substantial impairment interfering with independence; Mild NCD requires modest impairment not interfering with independence but requiring compensatory strategies."
+    },
+    "methodological_notes": {
+      "interindividual_variability": "Significant variability exists in the precise location and extent of Brodmann areas across individuals. Sulcal patterns do not perfectly predict cytoarchitectonic borders.",
+      "modern_parcellation": "Contemporary cytoarchitectonic studies (Julich-Brain atlas, Human Connectome Project) have subdivided many classical Brodmann areas and identified new regions. Original Brodmann map was 2D and did not show areas within sulci.",
+      "functional_localization": "While many Brodmann areas correlate with specific functions, function is distributed and depends on networks. Modern neuroscience emphasizes connectivity and dynamics over strict localization.",
+      "clinical_application": "Neuropsychological assessment uses standardized tests to evaluate cognitive domains. Brodmann areas provide neuroanatomical framework but clinical diagnosis requires integration of multiple data sources including history, examination, neuroimaging, and testing."
+    }
+  }

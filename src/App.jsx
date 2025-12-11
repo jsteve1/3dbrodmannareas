@@ -4,6 +4,7 @@ import { Button } from './components/ui/button';
 import { Sheet, SheetContent } from './components/ui/sheet';
 import { Drawer, DrawerContent } from './components/ui/drawer';
 import BrainViewer from './components/BrainViewer';
+import brainData from '../braininfo.json';
 import './index.css';
 
 function App() {
@@ -15,7 +16,51 @@ function App() {
   const [sectionColorsEnabled, setSectionColorsEnabled] = useState(true);
   const [menuOpen, setMenuOpen] = useState(false);
   const [infoDismissed, setInfoDismissed] = useState(false);
+  const [drawerHeight, setDrawerHeight] = useState(35); // Percentage of viewport height
+  const [isDragging, setIsDragging] = useState(false);
+  const [startY, setStartY] = useState(0);
+  const [startHeight, setStartHeight] = useState(50);
   const brainMeshes = useRef([]);
+
+  // Helper function to find Brodmann area data from JSON
+  const getBrodmannAreaData = useCallback((meshName) => {
+    if (!meshName) return null;
+    
+    // Check for subcortical structures first (cerebellum and brainstem)
+    // Note: mesh names are "Lobe_Cerebllum_2_0" (cerebellum) and "Lobe_Cerebllum_1_0" (brainstem)
+    if (meshName.includes('Cerebllum')) {
+      if (meshName.includes('_2_')) {
+        // Lobe_Cerebllum_2_0 is the cerebellum
+        return brainData.subcortical_structures?.find(s => s.id === 'cerebellum');
+      } else if (meshName.includes('_1_')) {
+        // Lobe_Cerebllum_1_0 is the brainstem
+        return brainData.subcortical_structures?.find(s => s.id === 'brainstem');
+      }
+    }
+    
+    // Extract the number from the mesh name (e.g., "1", "4", "17", etc.)
+    const match = meshName.match(/\d+/);
+    if (!match) return null;
+    
+    const number = match[0];
+    
+    // Try exact match first
+    let area = brainData.brodmann_areas.find(ba => ba.id === number);
+    
+    // If not found, try to find as part of a range (e.g., "1-3")
+    if (!area) {
+      area = brainData.brodmann_areas.find(ba => {
+        if (ba.id.includes('-')) {
+          const [start, end] = ba.id.split('-').map(n => parseInt(n));
+          const num = parseInt(number);
+          return num >= start && num <= end;
+        }
+        return false;
+      });
+    }
+    
+    return area;
+  }, []);
 
   const handleBrainClick = useCallback((baName) => {
     if (baName === null) {
@@ -31,6 +76,7 @@ function App() {
         } else {
           // New area selected
           setDrawerOpen(true);
+          setDrawerHeight(35); // Reset to default height
           return baName;
         }
       });
@@ -44,6 +90,7 @@ function App() {
         return null;
       } else {
         setDrawerOpen(true);
+        setDrawerHeight(35); // Reset to default height
         return baName;
       }
     });
@@ -55,11 +102,84 @@ function App() {
     document.documentElement.classList.toggle('dark');
   };
 
+  // Drawer drag handlers
+  const handleMouseDown = useCallback((e) => {
+    setIsDragging(true);
+    setStartY(e.clientY);
+    setStartHeight(drawerHeight);
+    e.preventDefault();
+  }, [drawerHeight]);
+
+  const handleMouseMove = useCallback((e) => {
+    if (!isDragging) return;
+
+    const deltaY = startY - e.clientY;
+    const newHeight = Math.max(20, Math.min(80, startHeight + (deltaY / window.innerHeight) * 100));
+
+    if (newHeight < 25) {
+      // Close drawer if dragged down too far
+      setDrawerOpen(false);
+      setSelectedBA(null);
+      setIsDragging(false);
+    } else {
+      setDrawerHeight(newHeight);
+    }
+  }, [isDragging, startY, startHeight]);
+
+  const handleMouseUp = useCallback(() => {
+    setIsDragging(false);
+  }, []);
+
+  const handleTouchStart = useCallback((e) => {
+    if (e.touches.length === 1) {
+      setIsDragging(true);
+      setStartY(e.touches[0].clientY);
+      setStartHeight(drawerHeight);
+    }
+  }, [drawerHeight]);
+
+  const handleTouchMove = useCallback((e) => {
+    if (!isDragging || e.touches.length !== 1) return;
+
+    const deltaY = startY - e.touches[0].clientY;
+    const newHeight = Math.max(20, Math.min(80, startHeight + (deltaY / window.innerHeight) * 100));
+
+    if (newHeight < 25) {
+      // Close drawer if dragged down too far
+      setDrawerOpen(false);
+      setSelectedBA(null);
+      setIsDragging(false);
+    } else {
+      setDrawerHeight(newHeight);
+    }
+  }, [isDragging, startY, startHeight]);
+
+  const handleTouchEnd = useCallback(() => {
+    setIsDragging(false);
+  }, []);
+
   React.useEffect(() => {
     if (darkMode) {
       document.documentElement.classList.add('dark');
     }
   }, []);
+
+  // Add global mouse event listeners when dragging
+  React.useEffect(() => {
+    if (isDragging) {
+      document.addEventListener('mousemove', handleMouseMove);
+      document.addEventListener('mouseup', handleMouseUp);
+      document.addEventListener('touchmove', handleTouchMove, { passive: false });
+      document.addEventListener('touchend', handleTouchEnd);
+
+      return () => {
+        document.removeEventListener('mousemove', handleMouseMove);
+        document.removeEventListener('mouseup', handleMouseUp);
+        document.removeEventListener('touchmove', handleTouchMove);
+        document.removeEventListener('touchend', handleTouchEnd);
+      };
+    }
+  }, [isDragging, handleMouseMove, handleMouseUp, handleTouchMove, handleTouchEnd]);
 
   return (
     <div className="h-screen w-screen overflow-hidden flex flex-col">
@@ -74,7 +194,7 @@ function App() {
             <Menu className="h-5 w-5" />
           </Button>
           <Brain className="h-6 w-6 text-primary" />
-          <h1 className="text-xl font-semibold">Brain Explorer</h1>
+          <h1 className="text-xl font-semibold select-none">Brain Explorer</h1>
         </div>
         <div className="flex items-center gap-2">
           {/* Settings Menu */}
@@ -176,21 +296,35 @@ function App() {
             />
             <aside className="fixed top-16 left-0 bottom-0 w-80 bg-card border-r border-border overflow-y-auto z-50 shadow-2xl">
               <div className="p-4">
-                <h2 className="font-semibold mb-3 text-sm text-muted-foreground">BRODMANN AREAS</h2>
-                <div className="space-y-2">
-                  {meshesLoaded && brainMeshes.current.map((item) => (
-                    <button
-                      key={item.name}
-                      onClick={() => handleSidebarBAClick(item.name)}
-                      className={`w-full text-left px-4 py-3 rounded-lg text-sm font-semibold transition-all border cursor-pointer ${
-                        selectedBA === item.name
-                          ? 'bg-primary text-primary-foreground border-primary shadow-sm'
-                          : 'bg-background border-border hover:bg-accent hover:border-accent-foreground/20 hover:shadow-sm'
-                      }`}
-                    >
-                      Brodmann Area {item.name || 'Unknown'}
-                    </button>
-                  ))}
+                <h2 className="font-semibold mb-4 text-sm text-muted-foreground">Brodmann areas:</h2>
+                <div className="grid grid-cols-3 gap-2">
+                  {meshesLoaded && [...new Set(
+                    brainMeshes.current
+                      .map((item) => {
+                        const match = item.name.match(/\d+/);
+                        return match ? match[0] : null;
+                      })
+                      .filter(Boolean)
+                      .sort((a, b) => parseInt(a) - parseInt(b))
+                  )].map((baNumber) => {
+                    const meshItem = brainMeshes.current.find(item => {
+                      const match = item.name.match(/\d+/);
+                      return match && match[0] === baNumber;
+                    });
+                    return (
+                      <button
+                        key={baNumber}
+                        onClick={() => handleSidebarBAClick(meshItem.name)}
+                        className={`px-3 py-2 rounded-lg text-sm font-semibold transition-all border cursor-pointer ${
+                          selectedBA === meshItem.name
+                            ? 'bg-primary text-primary-foreground border-primary shadow-sm'
+                            : 'bg-background border-border hover:bg-accent hover:border-accent-foreground/20 hover:shadow-sm'
+                        }`}
+                      >
+                        {baNumber}
+                      </button>
+                    );
+                  })}
                 </div>
               </div>
             </aside>
@@ -212,35 +346,191 @@ function App() {
 
       {/* Bottom Drawer - Only show when valid BA is selected */}
       {drawerOpen && selectedBA && (
-        <div 
-          className="fixed bottom-0 inset-x-0 z-50 max-h-[50vh] bg-card text-foreground border-t border-border shadow-2xl overflow-y-auto animate-slide-up"
-          style={{
-            backgroundColor: darkMode ? 'hsl(222.2 84% 4.9%)' : 'hsl(0 0% 100%)',
-            color: darkMode ? 'hsl(210 40% 98%)' : 'hsl(222.2 84% 4.9%)'
-          }}
+        <div
+          className="fixed bottom-0 inset-x-0 z-50 bg-card/80 backdrop-blur-md text-foreground border-t border-border shadow-2xl animate-slide-up flex flex-col select-none"
+          style={{ height: `${drawerHeight}vh` }}
         >
-          <div className="p-6 w-full max-w-3xl mx-auto">
+          {/* Drawer Handle - Fixed at top */}
+          <div
+            className="flex-shrink-0 w-full h-8 flex items-start justify-center pt-2 cursor-grab active:cursor-grabbing touch-none select-none"
+            onMouseDown={handleMouseDown}
+            onTouchStart={handleTouchStart}
+          >
+            <div className="w-24 h-1 bg-gray-400 rounded-full"></div>
+          </div>
+
+          {/* Scrollable Content */}
+          <div className="flex-1 overflow-y-auto">
+            <div className="p-6 w-full max-w-3xl mx-auto">
             <div className="flex justify-between items-start mb-4">
-              <h3 className="text-2xl font-bold" style={{ color: darkMode ? 'hsl(210 40% 98%)' : 'hsl(222.2 84% 4.9%)' }}>
-                Brodmann Area {selectedBA}
+              <h3 className="text-2xl font-bold">
+                {getBrodmannAreaData(selectedBA)?.name || `Brodmann Area ${selectedBA}`}
               </h3>
-              <Button 
-                variant="ghost" 
+              <Button
+                variant="ghost"
+                size="icon"
                 onClick={() => {
                   setDrawerOpen(false);
                   setSelectedBA(null);
-                }} 
+                }}
                 className="cursor-pointer"
+                aria-label="Close drawer"
               >
-                Close
+                <X className="h-5 w-5" />
               </Button>
             </div>
-            <div className="max-w-none">
-              <p style={{ color: darkMode ? 'hsl(215 20.2% 65.1%)' : 'hsl(215.4 16.3% 46.9%)' }}>
-                Detailed information about <strong>Brodmann Area {selectedBA}</strong> will appear here.
-                This is a placeholder for region descriptions, functions, and related research.
-              </p>
+            <div className="max-w-none space-y-4">
+              {(() => {
+                const areaData = getBrodmannAreaData(selectedBA);
+                if (!areaData) {
+                  return (
+                    <p className="text-muted-foreground">
+                      No detailed information available for <strong>Brodmann Area {selectedBA}</strong>.
+                    </p>
+                  );
+                }
+                
+                return (
+                  <>
+                    {/* Location */}
+                    {areaData.location && (
+                      <div>
+                        <h4 className="text-lg font-semibold mb-2">Location</h4>
+                        <p className="text-muted-foreground">{areaData.location}</p>
+                      </div>
+                    )}
+                    
+                    {/* Subareas */}
+                    {areaData.subareas && (
+                      <div>
+                        <h4 className="text-lg font-semibold mb-2">Subareas</h4>
+                        <div className="space-y-2">
+                          {Object.entries(areaData.subareas).map(([key, value]) => (
+                            <div key={key} className="pl-4 border-l-2 border-primary/30">
+                              <p className="font-medium">Area {key}</p>
+                              <p className="text-sm text-muted-foreground">{value.description}</p>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                    
+                    {/* Cytoarchitecture */}
+                    {areaData.cytoarchitecture && (
+                      <div>
+                        <h4 className="text-lg font-semibold mb-2">Cytoarchitecture</h4>
+                        <div className="space-y-2">
+                          {areaData.cytoarchitecture.general && (
+                            <p className="text-sm text-muted-foreground">
+                              <strong>General:</strong> {areaData.cytoarchitecture.general}
+                            </p>
+                          )}
+                          {Object.entries(areaData.cytoarchitecture)
+                            .filter(([key]) => key !== 'general' && key !== 'distinctive_features' && key !== 'note' && key !== 'distinctive_feature')
+                            .map(([key, value]) => (
+                              <p key={key} className="text-sm text-muted-foreground">
+                                <strong>{key.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase())}:</strong> {value}
+                              </p>
+                            ))}
+                          {(areaData.cytoarchitecture.distinctive_features || areaData.cytoarchitecture.distinctive_feature) && (
+                            <p className="text-sm text-muted-foreground">
+                              <strong>Distinctive Features:</strong> {areaData.cytoarchitecture.distinctive_features || areaData.cytoarchitecture.distinctive_feature}
+                            </p>
+                          )}
+                          {areaData.cytoarchitecture.note && (
+                            <p className="text-sm text-muted-foreground italic">
+                              Note: {areaData.cytoarchitecture.note}
+                            </p>
+                          )}
+                        </div>
+                      </div>
+                    )}
+                    
+                    {/* Connectivity */}
+                    {areaData.connectivity && (
+                      <div>
+                        <h4 className="text-lg font-semibold mb-2">Connectivity</h4>
+                        <div className="space-y-2">
+                          {areaData.connectivity.inputs && (
+                            <p className="text-sm text-muted-foreground">
+                              <strong>Inputs:</strong> {areaData.connectivity.inputs}
+                            </p>
+                          )}
+                          {areaData.connectivity.outputs && (
+                            <p className="text-sm text-muted-foreground">
+                              <strong>Outputs:</strong> {areaData.connectivity.outputs}
+                            </p>
+                          )}
+                        </div>
+                      </div>
+                    )}
+                    
+                    {/* Functions */}
+                    {areaData.functions && areaData.functions.length > 0 && (
+                      <div>
+                        <h4 className="text-lg font-semibold mb-2">Functions</h4>
+                        <ul className="list-disc list-inside space-y-1">
+                          {areaData.functions.map((func, index) => (
+                            <li key={index} className="text-sm text-muted-foreground">{func}</li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
+                    
+                    {/* Clinical Relevance */}
+                    {areaData.clinical_relevance && areaData.clinical_relevance.length > 0 && (
+                      <div>
+                        <h4 className="text-lg font-semibold mb-2 text-yellow-600 dark:text-yellow-500">Clinical Relevance</h4>
+                        <ul className="list-disc list-inside space-y-1">
+                          {areaData.clinical_relevance.map((item, index) => (
+                            <li key={index} className="text-sm text-muted-foreground">{item}</li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
+                    
+                    {/* Subcortical Structures - Layers */}
+                    {areaData.layers && areaData.layers.length > 0 && (
+                      <div>
+                        <h4 className="text-lg font-semibold mb-2">Layers</h4>
+                        <div className="space-y-2">
+                          {areaData.layers.map((layer, index) => (
+                            <div key={index} className="pl-4 border-l-2 border-primary/30">
+                              <p className="font-medium">{layer.name}</p>
+                              <p className="text-sm text-muted-foreground">{layer.description}</p>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                    
+                    {/* Subcortical Structures - Subdivisions */}
+                    {areaData.subdivisions && areaData.subdivisions.length > 0 && (
+                      <div>
+                        <h4 className="text-lg font-semibold mb-2">Subdivisions</h4>
+                        <div className="space-y-2">
+                          {areaData.subdivisions.map((subdivision, index) => (
+                            <div key={index} className="pl-4 border-l-2 border-primary/30">
+                              <p className="font-medium">{subdivision.name}</p>
+                              <p className="text-sm text-muted-foreground">{subdivision.structures}</p>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                    
+                    {/* Evidence Base */}
+                    {areaData.evidence_base && (
+                      <div>
+                        <h4 className="text-lg font-semibold mb-2">Evidence Base</h4>
+                        <p className="text-xs text-muted-foreground italic">{areaData.evidence_base}</p>
+                      </div>
+                    )}
+                  </>
+                );
+              })()}
             </div>
+          </div>
           </div>
         </div>
       )}
